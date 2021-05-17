@@ -1,8 +1,5 @@
 package com.example.seeslot;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.content.Context;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -16,8 +13,11 @@ import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -29,16 +29,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -55,6 +59,126 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ToggleButton tgl18, tgl45;
     MediaPlayer mp;
     Context mContext;
+    String url;
+    List<String> statelist,districtlist;
+    ArrayAdapter<String> stateadapter,districtadapter;
+    MaterialButtonToggleGroup mbtg;
+    View distview,pinview;
+//    Spinner statespinner,distSpiner;
+    int firstDistId = 0;
+
+
+    public void getStates(){
+        String stateurl = "https://cdn-api.co-vin.in/api/v2/admin/location/states";
+        RequestQueue requestQueue;
+        requestQueue = Volley.newRequestQueue(this);
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, stateurl,
+                null, new Response.Listener<JSONObject>()
+        {
+            @Override
+            public void onResponse(JSONObject response) {
+                try
+                {
+                    for (int i = 0; i < response.getJSONArray("states").length(); i++) {
+                        statelist.add(response.getJSONArray("states").getJSONObject(i).getString("state_name"));
+                    }
+                    stateadapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("myapp", "something went Wrong" + error);
+            }
+
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36");
+
+                return params;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
+
+
+
+    public void getdist(long id){
+        String disturl = "https://cdn-api.co-vin.in/api/v2/admin/location/districts/"+id;
+        RequestQueue requestQueue;
+        requestQueue = Volley.newRequestQueue(this);
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, disturl,
+                null, new Response.Listener<JSONObject>()
+        {
+            @Override
+            public void onResponse(JSONObject response) {
+                try
+                {   districtlist.clear();
+                    firstDistId = Integer.parseInt(response.getJSONArray("districts").getJSONObject(0).getString("district_id"));
+                    for (int i = 0; i < response.getJSONArray("districts").length(); i++) {
+                        districtlist.add(response.getJSONArray("districts").getJSONObject(i).getString("district_name"));
+                    }
+                    districtadapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("myapp", "something went Wrong" + error);
+            }
+
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36");
+
+                return params;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public void datafetch(Editable pin) {
@@ -65,8 +189,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RequestQueue requestQueue;
         requestQueue = Volley.newRequestQueue(this);
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=" + pin + "&date=" + currentDateandTime, null, new Response.Listener<JSONObject>() {
+        url = ("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=" + pin + "&date=" + currentDateandTime);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>()
+        {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -145,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,20 +294,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         counttext = findViewById(R.id.counttext);
         tgl45 = findViewById(R.id.tgl45);
         tgl45.setChecked(false);
-
+        Spinner statespinner = findViewById(R.id.State_spinner);
+        Spinner distspinner = findViewById(R.id.District_spinner);
+        statelist = new ArrayList<String>();
+        districtlist = new ArrayList<String>();
         tgl18 = findViewById(R.id.tgl18);
         tgl18.setChecked(false);
         mContext = getApplicationContext();
         mp = MediaPlayer.create(mContext,R.raw.siren_alert);
         AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         mp.setLooping(true);
+        mbtg = findViewById(R.id.toggleGroup);
+        distview = findViewById(R.id.distview);
+        pinview = findViewById(R.id.pinview);
+        distview.setVisibility(View.GONE);
+        statespinner = findViewById(R.id.State_spinner);
+        distspinner = findViewById(R.id.District_spinner);
+        //set these on search buy district
+        stateadapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, statelist);
+        statespinner.setAdapter(stateadapter);
+        districtadapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, districtlist);
+        distspinner.setAdapter(districtadapter);
+
+
+
+
+
+        mbtg.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener()
+        {
+
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked)
+            {
+                getStates();
+
+                if(mbtg.findViewById(checkedId) == mbtg.findViewById(R.id.pinbtn))
+                {
+                    distview.setVisibility(View.GONE);
+                    pinview.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    pinview.setVisibility(View.GONE);
+                    distview.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         addcount.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         count = Integer.parseInt(String.valueOf(counttext.getText()).split(" ")[0]);
                         count++;
-                        counttext.setText(""+String.valueOf(count)+" Sec.");
+                        counttext.setText(""+ count +" Sec.");
                         delay = count * 1000;
 
                     }
@@ -196,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(!(count <= 4))
                         {
                             count--;
-                            counttext.setText("" + String.valueOf(count) + " Sec.");
+                            counttext.setText("" + count + " Sec.");
                             delay = count * 1000;
                         }
                         else
@@ -207,6 +373,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
+
+
+        statespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // your code here
+               Log.i("STATE","this state"+id);
+                getdist(id);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+
+
+
+
+        distspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // your code here
+                Log.i("DISTRICT","this district id  "+(id+firstDistId));
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
 
     }
 

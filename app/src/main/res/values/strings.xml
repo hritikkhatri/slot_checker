@@ -6,4 +6,15 @@
     <string name="minus">-</string>
     <string name="stop">Stop</string>
     <string name="slot_alarm">Slot Alarm</string>
+    <string name="enter_pin">Enter PIN</string>
+    <string name="data_fetching">Please wait while fetching data.....</string>
+    <string name="get_slot_detail">Get Slot Detail</string>
+    <string name="p18">18+</string>
+    <string name="p45">45+</string>
+    <string name="note">NOTE:-</string>
+    <string name="slot_details">Slot Details:</string>
+    <string name="default_seconds">15 Sec.</string>
+    <string name="plus">+</string>
+    <string name="check_the_slot_in_every">Check the slot in every :</string>
+    <string name="set_notification_for_age">Set notification for Age</string>
 </resources>
