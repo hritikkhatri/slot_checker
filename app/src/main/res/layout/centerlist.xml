@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/c_Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Center Name"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/paidtv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@drawable/roundedcorner"
+                android:padding="2dp"
+                android:text="Paid"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/vnameprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vaccine Name : Price" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/vacbookstat1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:background="@drawable/roundbokkstat"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/vaccName1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vacc Name" />
+
+                <TextView
+                    android:id="@+id/Vacage1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:textColor="#FF0000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/vacbookstat2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:gravity="center"
+                    android:background="@drawable/roundbokkstat"
+
+                    />
+
+                <TextView
+                    android:id="@+id/vaccName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vacc Name" />
+
+                <TextView
+                    android:id="@+id/Vacage2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:textColor="#FF0000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/vacbookstat3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:gravity="center"
+                    android:background="@drawable/roundbokkstat"
+                    />
+
+                <TextView
+                    android:id="@+id/vaccName3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vacc Name" />
+
+                <TextView
+                    android:id="@+id/Vacage3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:textColor="#FF0000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/vacbookstat4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:gravity="center"
+                    android:background="@drawable/roundbokkstat"
+                    />
+
+                <TextView
+                    android:id="@+id/vaccName4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vacc Name" />
+
+                <TextView
+                    android:id="@+id/Vacage4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:textColor="#FF0000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/vacbookstat5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:gravity="center"
+                    android:background="@drawable/roundbokkstat"
+                    />
+
+                <TextView
+                    android:id="@+id/vaccName5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vacc Name" />
+
+                <TextView
+                    android:id="@+id/Vacage5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:textColor="#FF0000" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
